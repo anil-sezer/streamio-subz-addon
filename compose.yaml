@@ -1,0 +1,6 @@
+﻿services:
+  subz:
+    image: subz
+    build:
+      context: .
+      dockerfile: Subz/Dockerfile
