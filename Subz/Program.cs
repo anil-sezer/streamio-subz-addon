@@ -1,6 +1,9 @@
 using Subz.Components;
+using Subz.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.InitLogsWithSerilog();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -23,6 +26,8 @@ app.MapGet("/", context =>
 });
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowStremio");
 
 
 app.UseAntiforgery();
