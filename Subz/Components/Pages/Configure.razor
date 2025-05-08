@@ -1,0 +1,27 @@
+﻿@page "/configuration"
+
+<PageTitle>Subz Configuration</PageTitle>
+
+<div class="center-box">
+    <label for="opensubtitle-api-key">OpenSubtitle Api Key</label>
+    <input type="text" id="opensubtitle-api-key" />
+    
+    <hr class="solid">
+    
+    <select id="language" class="form-select">
+        @foreach (var lang in Languages.LanguageList)
+        {
+            <option value="@lang.LanguageCode">@lang.Flag @lang.LanguageName (@lang.Country)</option>
+        }
+    </select>
+    
+    <hr class="solid">
+
+
+    <button class="button-85" role="button">Install addon</button>
+    <button class="button-17" role="button">Copy to clipboard</button>
+
+    
+    <a href="/manifest.json" target="_blank">View Manifest</a>
+    <a href="/scalar" target="_blank">Api</a>
+</div>

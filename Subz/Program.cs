@@ -16,6 +16,12 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.MapGet("/", context =>
+{
+    context.Response.Redirect("/configuration");
+    return Task.CompletedTask;
+});
+
 app.UseHttpsRedirection();
 
 
