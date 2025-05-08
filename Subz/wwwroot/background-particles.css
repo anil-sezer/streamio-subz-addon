@@ -1,0 +1,10 @@
+﻿canvas {
+    display: inline;
+    vertical-align: bottom;
+}
+
+#particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}

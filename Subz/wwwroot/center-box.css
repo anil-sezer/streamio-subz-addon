@@ -1,0 +1,29 @@
+﻿.center-box {
+    background: rgba(255, 255, 255, 0.3);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.29);
+    width: 400px;
+    max-width: 90%;
+    color: white;
+    position: relative;
+    z-index: 1;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+input, label {
+    display: block;
+    margin-top: 1rem;
+}
+
+input[type="checkbox"] {
+    display: inline-block;
+    margin-right: 0.5rem;
+}
+
+hr.solid {
+    border-top: 3px solid #bbb;
+}
