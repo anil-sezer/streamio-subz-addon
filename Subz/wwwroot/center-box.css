@@ -1,17 +1,22 @@
 ﻿.center-box {
     background: rgba(255, 255, 255, 0.3);
-    padding: 2rem;
+    padding: 4rem 2rem;
     border-radius: 15px;
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.29);
-    width: 400px;
-    max-width: 90%;
+
     color: white;
     position: relative;
     z-index: 1;
-    margin: 0 auto;
+    margin: 2rem auto;
     display: flex;
     flex-direction: column;
     align-items: stretch;
+
+    width: 400px;
+    max-width: 90%;
+
+    min-height: min-content;
+    /*max-height: 90%;*/
 }
 
 input, label {
@@ -25,5 +30,32 @@ input[type="checkbox"] {
 }
 
 hr.solid {
+    border: 0;
     border-top: 3px solid #bbb;
+    border-radius: 2px;
+    margin: 1em 0;
+    width: 100%;
+}
+
+#install-button-box {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+#title h1 {
+    font-size: 2rem;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+#title span {
+    font-size: 1rem;
+    color: #ccc;
+}
+
+#title hr.solid {
+    margin-top: 0.5rem;
+    border-color: aliceblue;
 }
