@@ -23,6 +23,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Subz.Infrastructure\Subz.Infrastructure.csproj" />
+        <ProjectReference Include="..\Subz.OpenSubtitleClient\Subz.OpenSubtitleClient.csproj" />
     </ItemGroup>
 
 </Project>
