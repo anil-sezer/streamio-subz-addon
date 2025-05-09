@@ -1,3 +1,4 @@
+using Scalar.AspNetCore;
 using Subz.Components;
 using Subz.Extensions;
 
@@ -8,6 +9,11 @@ builder.InitLogsWithSerilog();
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddControllers();
+builder.Services.AddOpenApi();
+
 
 var app = builder.Build();
 
@@ -25,6 +31,9 @@ app.MapGet("/", context =>
     return Task.CompletedTask;
 });
 
+app.MapOpenApi();
+app.MapScalarApiReference();
+
 app.UseHttpsRedirection();
 
 app.UseCors("AllowStremio");
@@ -35,5 +44,7 @@ app.UseAntiforgery();
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+app.MapControllers();
 
 app.Run();
