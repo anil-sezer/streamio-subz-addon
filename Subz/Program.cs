@@ -1,6 +1,6 @@
 using Scalar.AspNetCore;
 using Subz.Components;
-using Subz.Extensions;
+using Subz.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

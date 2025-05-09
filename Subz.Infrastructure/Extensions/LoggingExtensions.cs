@@ -1,7 +1,8 @@
-﻿using Serilog;
+using Microsoft.AspNetCore.Builder;
+using Serilog;
 using Serilog.Events;
 
-namespace Subz.Extensions;
+namespace Subz.Infrastructure.Extensions;
 
 public static class LoggingExtensions
 {
@@ -11,6 +12,10 @@ public static class LoggingExtensions
             .MinimumLevel.Information()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .WriteTo.Console()
+            // .WriteTo.OpenTelemetry(
+            //     endpoint: "http://127.0.0.1:4318/v1/logs",
+            //     protocol: OtlpProtocol.Grpc
+            //     )
             .CreateLogger();
         builder.Host.UseSerilog();
     }
