@@ -1,4 +1,5 @@
 using Scalar.AspNetCore;
+using Subz;
 using Subz.Components;
 using Subz.Infrastructure.Extensions;
 
@@ -36,7 +37,7 @@ if (!app.Environment.IsDevelopment())
 
 app.MapGet("/", context =>
 {
-    context.Response.Redirect("/configuration");
+    context.Response.Redirect(PageNames.Index);
     return Task.CompletedTask;
 });
 
