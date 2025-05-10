@@ -1,92 +1,47 @@
-﻿.radio-container {
+﻿.hearing-impaired-block {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+    justify-content: space-around;
 }
 
-.radio-label {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: #333;
-}
-
-.radio-group {
+.block-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
 }
 
-@media (min-width: 768px) {
-    .radio-group {
-        gap: 1.25rem;
-    }
-}
-
-.radio-option {
-    border: 1px solid #e5e7eb;
-    height: 80px;
-    width: 85px;
-    border-radius: 0.375rem;
-    text-align: center;
-    transition: all 0.2s ease;
-    background-color: white;
-    padding: 0.5rem;
-    cursor: pointer;
-}
-
-@media (min-width: 768px) {
-    .radio-option {
-        height: 100px;
-        width: 110px;
-    }
-}
-
-.radio-option:focus {
-    outline: 2px solid #3b82f6;
-    outline-offset: 2px;
-}
-
-.radio-option[data-state="checked"] {
-    border-color: #3b82f6;
-    background-color: #eff6ff;
-}
-
-.radio-content {
+.buttons {
     display: flex;
-    flex-direction: column;
+    background-color: #edf2f7;
+    width: fit-content;
+    border-radius: 5px;
+    margin: 0 auto;
+}
+
+label {
+    margin: 4px;
+}
+
+.buttons label {
+    display: flex;
     align-items: center;
-    justify-content: center;
-    height: 100%;
+    padding: 5px 10px;
+    font-weight: bold;
+    color: #838585;
 }
 
-.radio-icon {
-    margin-bottom: 0.5rem;
+.buttons label:hover {
+    cursor: pointer;
+    color: #3c4043;
 }
 
-.radio-svg {
-    width: 1.25rem;
-    height: 1.25rem;
-    color: #6b7280;
+input[type="radio"] {
+    display: none;
 }
 
-.radio-option[data-state="checked"] .radio-svg {
-    color: #3b82f6;
-}
-
-.radio-text {
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #6b7280;
-}
-
-@media (min-width: 768px) {
-    .radio-text {
-        font-size: 0.875rem;
-    }
-}
-
-.radio-option[data-state="checked"] .radio-text {
-    color: #3b82f6;
+.buttons label:has(input[type="radio"]:checked) {
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    color: #3184d1;
 }
