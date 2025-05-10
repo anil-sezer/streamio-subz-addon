@@ -21,35 +21,7 @@
   }
 </select>
   
-<!-- todo: make it more generic. I want non eye straining code on this page. -->
-<div class="radio-container">
-  <label class="radio-label" for="hearingImpairment">Hearing Impairment</label>
-    
-  <div role="radiogroup" aria-required="false" dir="ltr" class="radio-group" id="hearingImpairment">
-      
-    <button type="button" role="radio" aria-checked="false" data-state="unchecked" value="hiInclude" class="radio-option">
-      <div class="radio-content">
-        <HearingIconSvg />
-        <div class="radio-text">Include</div>
-      </div>
-    </button>
-      
-    <button type="button" role="radio" aria-checked="false" data-state="unchecked" value="hiExclude" class="radio-option">
-      <div class="radio-content">
-        <HearingIconSvg />
-        <div class="radio-text">Exclude</div>
-      </div>
-    </button>
-      
-    <button type="button" role="radio" aria-checked="true" data-state="unchecked" value="hiOnly" class="radio-option">
-      <div class="radio-content">
-        <HearingIconSvg />
-        <div class="radio-text">Only</div>
-      </div>
-    </button>
-      
-  </div>
-</div>
+<HearingImpairmentBlock/>
 
 <hr class="solid">
 
