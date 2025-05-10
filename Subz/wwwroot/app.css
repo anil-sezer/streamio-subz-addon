@@ -19,3 +19,19 @@ body {
     position: relative;
     z-index: 1;
 }
+
+/* Links */
+a {
+    color: #ff9900;
+    /*text-decoration: none;  !* removes underline, optional *!*/
+    font-weight: bold;
+}
+
+a:hover {
+    color: #ffb84d;
+    text-decoration: underline;
+}
+
+a:visited {
+    color: #ffd699;
+}
