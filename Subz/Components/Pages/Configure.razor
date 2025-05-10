@@ -10,34 +10,8 @@
   <hr class="solid">
 </div>
 
-<div id="opensubtitle-credentials">
-  <label for="os-username">OpenSubtitle username (Do not use email, use username)</label>
-  <input type="text" id="os-username" @bind="username" />
-  
-  <label for="os-password">Password</label>
-  <input type="password" id="os-password" @bind="password" />
-  
-  <label for="os-username">Api key. Not be confused by the api token. Api key creation guide is here: <NavLink href="how-to-create-opensubtitles-apikey">here</NavLink>
-  </label>
-  <input type="text" id="os-api-key" @bind="apiKey" />
-  
-  <button class="button-17" role="button" @onclick="CheckCredentials" disabled="@isChecking">
-    @(isChecking ? "Checking..." : "Check credentials")
-  </button>
+<OpenSubtitleCredentialsBlock/>
 
-  @if (!string.IsNullOrEmpty(statusMessage))
-  {
-    <div class="@(isError ? "error-message" : "success-message")">
-      @statusMessage
-    </div>
-  }
-</div>
-
-
-@* <label for="opensubtitle-api-key">OpenSubtitle Api Key</label> *@
-@* <input type="text" id="opensubtitle-api-key"/> *@
-@* <span>Optional, check <a href="https://opensubtitles.stoplight.io/docs/opensubtitles-api/e3750fd63a100-getting-started" target="_blank" rel="noopener">here</a> for rate limits and other details.</span> *@
-@* *@
 <hr class="solid">
 
 <select id="language" class="form-select">
@@ -86,70 +60,4 @@
 
 <a href="/manifest.json" target="_blank">View Manifest</a>
 <a href="/scalar" target="_blank">Api</a>
-
-@code {
-  private string username = "";
-  private string password = "";
-  private string apiKey = "";
-  private string statusMessage = "";
-  private bool isError = false;
-  private bool isChecking = false;
-
-  [Inject]
-  private IConfiguration Configuration { get; set; }
-
-  private async Task CheckCredentials()
-  {
-    Log.Information("Checking OpenSubtitles credentials...");
-    if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(apiKey))
-    {
-      statusMessage = "Please enter username, password and api key (Not api token, api key)";
-      isError = true;
-      return;
-    }
-
-    try
-    {
-      isChecking = true;
-      statusMessage = "";
-            
-      var response = await new Auth().LoginAsync(username, password, apiKey);
-
-      if (!string.IsNullOrEmpty(response.Token))
-      {
-        statusMessage = "Login successful! Remaining downloads: " + response.User.AllowedDownloads;
-        isError = false;
-        Log.Information("✅ Login successful. Token: {Token}", response.Token);
-
-        // You might want to store the token or do something with it
-      } 
-      else
-      {
-        var msg = $"Login failed with {response.Status} code. Message from Opensubtitles: {response.ErrorMessage}" + 
-                  (response.Status == 403 ? $"{Environment.NewLine}{Environment.NewLine}Tip from addon dev: You are probably using wrong credentials." : "");
-        statusMessage = msg;
-        isError = true;
-        Log.Information(msg);
-      }
-    }
-    catch (HttpRequestException ex)
-    {
-      statusMessage = "Login failed. Please check your credentials.";
-      isError = true;
-      Log.Information("❌ Login failed. Exception: {Message}", ex.Message);
-
-    }
-    catch (Exception ex)
-    {
-      statusMessage = "An unexpected error occurred.";
-      isError = true;
-      Log.Information("❌ Login failed. Exception: {Message}", ex.Message);
-    }
-    finally
-    {
-      isChecking = false;
-      StateHasChanged();
-    }
-  }
-}
 
