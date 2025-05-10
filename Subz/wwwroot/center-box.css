@@ -19,16 +19,6 @@
     /*max-height: 90%;*/
 }
 
-input, label {
-    display: block;
-    margin-top: 1rem;
-}
-
-input[type="checkbox"] {
-    display: inline-block;
-    margin-right: 0.5rem;
-}
-
 hr.solid {
     border: 0;
     border-top: 3px solid #bbb;
