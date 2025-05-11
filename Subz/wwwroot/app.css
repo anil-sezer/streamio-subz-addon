@@ -9,7 +9,6 @@ body {
     width: 100%;
 }
 
-
 .block {
     background: rgba(0, 0, 0, 0.3);
     padding: 1vw;
@@ -17,7 +16,6 @@ body {
 
     color: white;
     position: relative;
-    z-index: 1;
 }
 
 /* Links */
@@ -34,4 +32,32 @@ a:hover {
 
 a:visited {
     color: #ffd699;
+}
+
+
+.nice-buttons {
+    background-color: #edf2f7;
+    width: fit-content;
+    border-radius: 5px;
+    margin: 0 auto;
+}
+
+.nice-buttons label {
+    align-items: center;
+    font-weight: bold;
+    color: #838585;
+    margin: 4px;
+    padding: 5px 10px;
+}
+
+.nice-buttons label:hover {
+    cursor: pointer;
+    color: #3c4043;
+}
+
+.nice-buttons label:has(input[type="checkbox"]:checked) {
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    color: #3184d1;
 }

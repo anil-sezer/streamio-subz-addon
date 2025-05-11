@@ -1,0 +1,42 @@
+﻿<div id="subtitle-language-select-block" class="block">
+    <div class="dropdown">
+        <div id="selectedValues" class="selected-values">No language selected</div>
+        <button id="langSelectDropdownBtn">Select Languages</button>
+        <div class="dropdown-menu nice-buttons" id="langSelectDropdownMenu">
+            @foreach (var lang in Languages.LanguageList)
+            {
+                <label><input type="checkbox" value="1"> @lang.Flag @lang.LanguageName</label>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private IJSObjectReference _module;
+    private bool _dropdownInitialized = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./subtitle-lang-select.js");
+            await InitializeDropdown();
+        }
+    }
+
+    private async Task InitializeDropdown()
+    {
+        if (!_dropdownInitialized && _module != null)
+        {
+            _dropdownInitialized = await _module.InvokeAsync<bool>("initializeDropdown");
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_module != null)
+        {
+            await _module.DisposeAsync();
+        }
+    }
+}
