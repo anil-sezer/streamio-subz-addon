@@ -1,14 +1,31 @@
-﻿<div class="hearing-impaired block">
+﻿@using Subz.Infrastructure.ConstantsAndEnums
+
+<div class="hearing-impaired block">
     <div class="block-title">Subtitles for hearing impaired</div>
     <div class="buttons">
         <label>
-            <input type="radio" name="hearing_impaired" value="include" id="hearing_impaired_include" checked=""> Include
+            <input type="radio" name="hearing_impaired" value="include" id="hearing_impaired_include" 
+                   checked="@(HearingImpairedOption == HearingImpairmentOptions.Include)" 
+                   @onchange="@(() => SetHearingImpairedOption(HearingImpairmentOptions.Include))"> Include
         </label>
         <label>
-            <input type="radio" name="hearing_impaired" value="exclude" id="hearing_impaired_exclude"> Exclude
+            <input type="radio" name="hearing_impaired" value="exclude" id="hearing_impaired_exclude" 
+                   checked="@(HearingImpairedOption == HearingImpairmentOptions.Exclude)" 
+                   @onchange="@(() => SetHearingImpairedOption(HearingImpairmentOptions.Exclude))"> Exclude
         </label>
         <label>
-            <input type="radio" name="hearing_impaired" value="only" id="hearing_impaired_only"> Only
+            <input type="radio" name="hearing_impaired" value="only" id="hearing_impaired_only" 
+                   checked="@(HearingImpairedOption == HearingImpairmentOptions.Only)" 
+                   @onchange="@(() => SetHearingImpairedOption(HearingImpairmentOptions.Only))"> Only
         </label>
     </div>
 </div>
+
+@code {
+    public HearingImpairmentOptions HearingImpairedOption { get; private set; } = HearingImpairmentOptions.Include;
+
+    private void SetHearingImpairedOption(HearingImpairmentOptions option)
+    {
+        HearingImpairedOption = option;
+    }
+}
