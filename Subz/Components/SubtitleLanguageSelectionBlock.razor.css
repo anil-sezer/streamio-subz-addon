@@ -1,6 +1,5 @@
-﻿.dropdown {
-    position: relative;
-    display: inline-block;
+﻿#langSelectDropdownBtn {
+    cursor: pointer;
 }
 
 .dropdown-menu {
@@ -30,11 +29,13 @@
 }
 
 .selected-values {
-    margin-top: 5px;
+    margin-bottom: 5px;
     padding: 5px;
     min-height: 20px;
-    border: 1px dashed #ccc;
+    /*border: 1px dashed #ccc;*/
     font-size: 0.9em;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
 }
 
 input[type="checkbox"] {

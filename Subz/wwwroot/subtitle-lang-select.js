@@ -46,7 +46,7 @@
         });
 
         if (selected.length === 0) {
-            selectedValuesDisplay.textContent = "No options selected";
+            selectedValuesDisplay.textContent = "Select one or more languages";
         } else {
             selectedValuesDisplay.textContent = selected.join(", ");
         }

@@ -1,13 +1,11 @@
 ﻿<div id="subtitle-language-select-block" class="block">
-    <div class="dropdown">
-        <div id="selectedValues" class="selected-values">No language selected</div>
-        <button id="langSelectDropdownBtn">Select Languages</button>
-        <div class="dropdown-menu nice-buttons" id="langSelectDropdownMenu">
-            @foreach (var lang in Languages.LanguageList)
-            {
-                <label><input type="checkbox" value="1"> @lang.Flag @lang.LanguageName</label>
-            }
-        </div>
+    <div id="selectedValues" class="selected-values">No language selected</div>
+    <button id="langSelectDropdownBtn">Select Languages</button>
+    <div class="dropdown-menu nice-buttons" id="langSelectDropdownMenu">
+        @foreach (var lang in Languages.LanguageList)
+        {
+            <label><input type="checkbox" value="1"> @lang.Flag @lang.LanguageName</label>
+        }
     </div>
 </div>
 
