@@ -17,6 +17,38 @@
 @code {
     private IJSObjectReference _module;
     private bool _dropdownInitialized = false;
+    
+    public async Task<List<string>> GetLanguageDataAsync()
+    {
+        try
+        {
+            var selectedText = await JSRuntime.InvokeAsync<string>(
+                "eval", 
+                "document.getElementById('selectedValues').textContent.trim()"
+            );
+            
+            // TODO: Remove magic string
+            if (selectedText == "Select one or more languages")
+            {
+                return new List<string>();
+            }
+
+            // Remove flags, spaces etc.
+            var languages = new List<string>();
+            var temp = selectedText.Split(',');
+            foreach (var l in temp)
+            {
+                var lang = l.Trim();
+                languages.Add(lang.Substring(lang.IndexOf(' ')).Trim());
+            }
+                
+            return languages;
+        }
+        catch (Exception)
+        {
+            return new List<string>();
+        }
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
