@@ -8,26 +8,59 @@
   <hr class="solid">
 </div>
 
-<OpenSubtitleCredentialsBlock/>
+<OpenSubtitleCredentialsBlock @ref="credentialsBlock"/>
 
-<hr class="solid">
+<SubtitleLanguageSelectionBlock @ref="languageBlock"/>
 
-<select id="language" class="form-select">
-  @foreach (var lang in Languages.LanguageList)
-  {
-    <option value="@lang.LanguageCode">@lang.Flag @lang.LanguageName (@lang.Country)</option>
-  }
-</select>
-  
-<HearingImpairmentBlock/>
+<HearingImpairmentBlock @ref="hearingImpairmentBlock"/>
 
-<hr class="solid">
+<DiscordNotificationHookBlock @ref="discordNotificationHookBlock"/>
 
 <div id="install-button-box">
   <button class="button-85" role="button">Install addon</button>
-  <button class="button-17" role="button">Copy to clipboard</button>
+  <button class="button-17" role="button" @onclick="GenerateAndCopy">Copy to clipboard</button>
 </div>
+
+@if (!string.IsNullOrEmpty(configString))
+{
+  <div class="config-string-display">
+    <h3>Configuration String:</h3>
+    <pre>@configString</pre>
+  </div>
+}
 
 <a href="/manifest.json" target="_blank">View Manifest</a>
 <a href="/scalar" target="_blank">Api</a>
 
+
+@code {
+  private OpenSubtitleCredentialsBlock credentialsBlock;
+  private SubtitleLanguageSelectionBlock languageBlock;
+  private HearingImpairmentBlock hearingImpairmentBlock;
+  private DiscordNotificationHookBlock discordNotificationHookBlock;
+  private string configString = "";
+
+  private async Task GenerateConfigString()
+  {
+    var languageData = await languageBlock.GetLanguageDataAsync();
+    configString = $"CONFIGURATION DATA:\n\n" +
+                   $"CREDENTIALS:\n{credentialsBlock.Username} + {credentialsBlock.Password} + {credentialsBlock.ApiKey}\n\n" +
+                   $"LANGUAGE PREFERENCES:\n{string.Join(',', languageData)}\n\n" +
+                   $"HEARING IMPAIRMENT SETTINGS:\n{hearingImpairmentBlock.HearingImpairedOption}" +
+                   $"DISCORD WEBHOOK:\n{discordNotificationHookBlock.DiscordWebhook}";
+  }
+    
+  private async Task CopyToClipboard()
+  {
+    if (!string.IsNullOrEmpty(configString))
+    {
+      await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", configString);
+    }
+  }
+
+  private async Task GenerateAndCopy()
+  {
+    await GenerateConfigString();
+    await CopyToClipboard();
+  }
+}
