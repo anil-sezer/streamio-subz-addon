@@ -18,6 +18,12 @@ body {
     position: relative;
 }
 
+.block-title {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    display: flex;
+}
+
 /* Links */
 a {
     color: #ff9900;
