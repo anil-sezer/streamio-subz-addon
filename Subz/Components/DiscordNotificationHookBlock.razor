@@ -1,0 +1,60 @@
+﻿@using Serilog
+@using Subz.Infrastructure.ConstantsAndEnums
+@using Subz.Infrastructure.Services
+
+<div class="hearing-impaired block">
+    <div class="block-title">Add & Check your Discord webhook</div>
+    <p>If the addon needs to notify you about something, it can use this webhook to talk to you.</p>
+    <div class="nice-group">
+        <input type="text" class="nice-textbox" placeholder="Your Discord Webhook" name="DiscordWebhook" id="discord-webhook" @bind="DiscordWebhook" required/>
+        <label for="discord-webhook" class="nice-label">Your Discord Webhook</label>
+    </div>
+    
+    <div class="button-to-center-container">
+        <button class="button-17 check-button" role="button" @onclick="CheckWebhook" disabled="@isChecking">
+            @(isChecking ? "Checking..." : "Check credentials")
+        </button>
+    </div>
+
+    @if (!string.IsNullOrEmpty(statusMessage))
+    {
+        <div class="@(isError ? "error-message" : "success-message")">
+            @statusMessage
+        </div>
+    }
+</div>
+
+@code {
+    public string DiscordWebhook = "";
+    
+    private string statusMessage = "";
+    private bool isError = false;
+    private bool isChecking = false;
+
+    private async Task CheckWebhook()
+    {
+        isChecking = true;
+        statusMessage = "";
+      
+        var isItSuccess = await NotifyViaDiscord.SendNotificationAsync(
+            "If you see this message, then you did a manual testing and your webhook is ready!",
+            DiscordWebhook,
+            DiscordMessageType.Success,
+            "Test message from Subz");
+        isChecking = false;
+      
+        if (isItSuccess)
+        {
+            statusMessage = "Looks like its working! Check your messages.";
+            isError = false;
+            Log.Information("Discord webhook check looks like a success");
+        }
+        else
+        {
+            statusMessage = $"Discord webhook is invalid.{Environment.NewLine}Please check your webhook URL.{Environment.NewLine}If you are sure it is correct, then try testing with CuRL or Postman.";
+            isError = true;
+            Log.Information("Discord webhook check looks unsuccessful");
+        }
+        StateHasChanged();
+    }
+}
