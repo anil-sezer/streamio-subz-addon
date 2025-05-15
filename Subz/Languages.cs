@@ -2,39 +2,44 @@
 
 public class Languages
 {
-	public record struct LanguageInfo (string LanguageCode, string LanguageName, string Country, string Flag);
+	public record struct LanguageInfo (string alpha2Code, string alpha3Code, string LanguageName, string Country, string Flag);
 
 	public static readonly IReadOnlyList<LanguageInfo> LanguageList =
 	[
-		new ("en", "English", "United States", "🇺🇸"),
-		// new ("en-GB", "English", "United Kingdom", "🇬🇧"),
-		new ("es", "Spanish", "Spain", "🇪🇸"),
-		new ("fr", "French", "France", "🇫🇷"),
-		new ("de", "German", "Germany", "🇩🇪"),
-		new ("it", "Italian", "Italy", "🇮🇹"),
-		new ("pt", "Portuguese", "Portugal", "🇵🇹"),
-		new ("pt-BR", "Portuguese", "Brazil", "🇧🇷"),
-		new ("tr", "Turkish", "Turkey", "🇹🇷"),
-		new ("ru", "Russian", "Russia", "🇷🇺"),
-		new ("ja", "Japanese", "Japan", "🇯🇵"),
-		new ("zh-CN", "Chinese", "China", "🇨🇳"),
-		new ("zh-TW", "Chinese new (Traditional)", "Taiwan", "🇹🇼"),
-		new ("ko", "Korean", "South Korea", "🇰🇷"),
-		new ("ar", "Arabic", "Saudi Arabia", "🇸🇦"),
-		new ("nl", "Dutch", "Netherlands", "🇳🇱"),
-		new ("sv", "Swedish", "Sweden", "🇸🇪"),
-		new ("no", "Norwegian", "Norway", "🇳🇴"),
-		new ("da", "Danish", "Denmark", "🇩🇰"),
-		new ("pl", "Polish", "Poland", "🇵🇱"),
-		new ("fi", "Finnish", "Finland", "🇫🇮"),
-		new ("cs", "Czech", "Czech Republic", "🇨🇿"),
-		new ("el", "Greek", "Greece", "🇬🇷"),
-		new ("hi", "Hindi", "India", "🇮🇳"),
-		new ("th", "Thai", "Thailand", "🇹🇭"),
-		new ("vi", "Vietnamese", "Vietnam", "🇻🇳"),
-		new ("id", "Indonesian", "Indonesia", "🇮🇩"),
-		new ("uk", "Ukrainian", "Ukraine", "🇺🇦"),
-		new ("ro", "Romanian", "Romania", "🇷🇴"),
-		new ("hu", "Hungarian", "Hungary", "🇭🇺")
+		new ("en", "eng", "English", "United States", "🇺🇸"),
+		new ("es", "spa", "Spanish", "Spain", "🇪🇸"),
+		new ("fr", "fra", "French", "France", "🇫🇷"),
+		new ("de", "deu", "German", "Germany", "🇩🇪"),
+		new ("it", "ita", "Italian", "Italy", "🇮🇹"),
+		new ("pt", "por", "Portuguese", "Portugal", "🇵🇹"),
+		new ("pt-BR", "por", "Portuguese", "Brazil", "🇧🇷"),
+		new ("tr", "tur", "Turkish", "Turkey", "🇹🇷"),
+		new ("ru", "rus", "Russian", "Russia", "🇷🇺"),
+		new ("ja", "jpn", "Japanese", "Japan", "🇯🇵"),
+		new ("zh-CN", "zho", "Chinese", "China", "🇨🇳"),
+		new ("zh-TW", "zho", "Chinese new (Traditional)", "Taiwan", "🇹🇼"),
+		new ("ko", "kor", "Korean", "South Korea", "🇰🇷"),
+		new ("ar", "ara", "Arabic", "Saudi Arabia", "🇸🇦"),
+		new ("nl", "nld", "Dutch", "Netherlands", "🇳🇱"),
+		new ("sv", "swe", "Swedish", "Sweden", "🇸🇪"),
+		new ("no", "nor", "Norwegian", "Norway", "🇳🇴"),
+		new ("da", "dan", "Danish", "Denmark", "🇩🇰"),
+		new ("pl", "pol", "Polish", "Poland", "🇵🇱"),
+		new ("fi", "fin", "Finnish", "Finland", "🇫🇮"),
+		new ("cs", "ces", "Czech", "Czech Republic", "🇨🇿"),
+		new ("el", "ell", "Greek", "Greece", "🇬🇷"),
+		new ("hi", "hin", "Hindi", "India", "🇮🇳"),
+		new ("th", "tha", "Thai", "Thailand", "🇹🇭"),
+		new ("vi", "vie", "Vietnamese", "Vietnam", "🇻🇳"),
+		new ("id", "ind", "Indonesian", "Indonesia", "🇮🇩"),
+		new ("uk", "ukr", "Ukrainian", "Ukraine", "🇺🇦"),
+		new ("ro", "ron", "Romanian", "Romania", "🇷🇴"),
+		new ("hu", "hun", "Hungarian", "Hungary", "🇭🇺")
 	];
+	
+	public static string GetLanguageAlpha3CodeFromName(string languageName)
+	{
+		var language = LanguageList.FirstOrDefault(x => x.LanguageName == languageName);
+		return language.alpha3Code;
+	}
 }
