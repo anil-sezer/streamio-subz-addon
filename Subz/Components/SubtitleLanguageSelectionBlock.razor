@@ -1,6 +1,11 @@
 ﻿<div id="subtitle-language-select-block" class="block">
+    <div class="block-title">Select Languages</div>
     <div id="selectedValues" class="selected-values">No language selected</div>
-    <button id="langSelectDropdownBtn">Select Languages</button>
+
+    <div class="button-to-center-container">
+        <button id="langSelectDropdownBtn">Click here to select</button>
+    </div>
+
     <div class="dropdown-menu nice-buttons" id="langSelectDropdownMenu">
         @foreach (var lang in Languages.LanguageList)
         {

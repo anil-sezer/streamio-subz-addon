@@ -47,8 +47,10 @@
 
         if (selected.length === 0) {
             selectedValuesDisplay.textContent = "Select one or more languages";
+            selectedValuesDisplay.classList.add("empty-state");
         } else {
             selectedValuesDisplay.textContent = selected.join(", ");
+            selectedValuesDisplay.classList.remove("empty-state");
         }
     }
 
