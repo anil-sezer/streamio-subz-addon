@@ -1,5 +1,5 @@
 // ReSharper disable InconsistentNaming
-namespace Subz.Infrastructure.Constants;
+namespace Subz.Infrastructure.ConstantsAndEnums;
 
 public static class EnvironmentVariableNames
 {
