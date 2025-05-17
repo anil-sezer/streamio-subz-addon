@@ -15,6 +15,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
+builder.Services.AddMemoryCache();
+builder.Services.AddHttpClient();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowStremio", policy =>
@@ -24,6 +27,9 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader();
     });
 });
+
+builder.Services.AddSingleton<CacheService>();
+builder.Services.AddSingleton<UserProfileAccessor>();
 
 var app = builder.Build();
 
@@ -48,6 +54,15 @@ app.UseHttpsRedirection();
 
 app.UseCors("AllowStremio");
 
+bool IsApiRequest(HttpContext context)
+{
+    return context.Request.Path.StartsWithSegments($"/{RouteConsts.Api}");
+}
+app.UseWhen(context => IsApiRequest(context), appBuilder => 
+{
+    appBuilder.UseMiddleware<ConfigCacheMiddleware>();
+    appBuilder.UseMiddleware<RequestLoggingMiddleware>();
+});
 
 app.UseAntiforgery();
 
