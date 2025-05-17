@@ -1,7 +1,8 @@
-﻿namespace Subz;
+﻿namespace Subz.Infrastructure.Services;
 
-public class Languages
+public static class LanguageService
 {
+	// https://www.loc.gov/standards/iso639-2/php/code_list.php
 	public record struct LanguageInfo (string alpha2Code, string alpha3Code, string LanguageName, string Country, string Flag);
 
 	public static readonly IReadOnlyList<LanguageInfo> LanguageList =
@@ -37,9 +38,31 @@ public class Languages
 		new ("hu", "hun", "Hungarian", "Hungary", "🇭🇺")
 	];
 	
-	public static string GetLanguageAlpha3CodeFromName(string languageName)
+	public static string FromNameToAlpha3(string languageName)
 	{
 		var language = LanguageList.FirstOrDefault(x => x.LanguageName == languageName);
 		return language.alpha3Code;
+	}
+
+	public static string FromAlpha2ToAlpha3(string alpha2Code)
+	{
+		var language = LanguageList.FirstOrDefault(x => x.alpha2Code == alpha2Code);
+		return language.alpha3Code;
+	}
+	
+	public static List<string> FromNameToAlpha3(List<string> languageName)
+	{
+		return languageName.Select(FromNameToAlpha3).ToList();
+	}
+	
+	public static string FromAlpha3ToAlpha2(string alpha3Code)
+	{
+		var language = LanguageList.FirstOrDefault(x => x.alpha3Code == alpha3Code);
+		return language.alpha2Code;
+	}
+	
+	public static List<string> FromAlpha3ToAlpha2(List<string> alpha3Codes)
+	{
+		return alpha3Codes.Select(FromAlpha3ToAlpha2).ToList();
 	}
 }
