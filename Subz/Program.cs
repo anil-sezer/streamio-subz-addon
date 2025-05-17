@@ -1,7 +1,11 @@
 using Scalar.AspNetCore;
-using Subz;
 using Subz.Components;
+using Subz.Consts;
+using Subz.Infrastructure.ConstantsAndEnums;
 using Subz.Infrastructure.Extensions;
+using Subz.Middlewares;
+using Subz.Models;
+using Subz.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,7 +47,7 @@ if (!app.Environment.IsDevelopment())
 
 app.MapGet("/", context =>
 {
-    context.Response.Redirect(PageNames.Index);
+    context.Response.Redirect(PageNameConsts.Index);
     return Task.CompletedTask;
 });
 
