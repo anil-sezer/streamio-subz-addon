@@ -16,51 +16,105 @@
 
 <DiscordNotificationHookBlock @ref="discordNotificationHookBlock"/>
 
-<div id="install-button-box">
-  <button class="button-85" role="button">Install addon</button>
-  <button class="button-17" role="button" @onclick="GenerateAndCopy">Copy to clipboard</button>
+<div id="install-block">
+  <h1>Install addon</h1>
+  
+  <div id="manifest-generate-button">
+    <button class="button-17" role="button" @onclick="GenerateManifestUrlAsync" disabled="@isWaitingForConfigCheck">
+      @(isWaitingForConfigCheck ? "Checking..." : "Generate manifest url")
+    </button>
+  </div>
+
+  @if (!string.IsNullOrEmpty(installUrl))
+  {
+    <div id="install-buttons">
+      @* <a href="@installUrl" target="_blank"> *@
+      @*   <button class="button-17" role="button" disabled="@isWaitingForConfigCheck"> *@
+      @*     @(isWaitingForConfigCheck ? "Checking..." : "Install to app") *@
+      @*   </button> *@
+      @* </a> *@
+      @* *@
+      @* <a href="@installUrl" target="_blank"> *@
+      @*   <button class="button-17" role="button" disabled="@isWaitingForConfigCheck"> *@
+      @*     @(isWaitingForConfigCheck ? "Checking..." : "Install to webpage") *@
+      @*   </button> *@
+      @* </a> *@
+
+      <button class="button-17" role="button" disabled="@isWaitingForConfigCheck" @onclick="CopyManifestUrlToClipboard">
+        @(isWaitingForConfigCheck ? "Checking..." : "Copy to clipboard")
+      </button>
+    </div>
+  }
+  
 </div>
 
-@if (!string.IsNullOrEmpty(configString))
+@if (!string.IsNullOrEmpty(configCheckStatusMessage))
 {
-  <div class="config-string-display">
-    <h3>Configuration String:</h3>
-    <pre>@configString</pre>
+  <div class="@(isThereAnErrorAtConfigCheck ? "error-message" : "success-message")">
+    @configCheckStatusMessage
   </div>
 }
 
-<a href="/manifest.json" target="_blank">View Manifest</a>
-<a href="/scalar" target="_blank">Api</a>
-
+@* todo: Unable to display scalar, this MUST be checked *@
+@* <a href="/scalar" target="_blank">Api</a> *@
 
 @code {
   private OpenSubtitleCredentialsBlock credentialsBlock;
   private SubtitleLanguageSelectionBlock languageBlock;
   private HearingImpairmentBlock hearingImpairmentBlock;
   private DiscordNotificationHookBlock discordNotificationHookBlock;
-  private string configString = "";
 
-  private async Task GenerateConfigString()
+  private string configCheckStatusMessage = "";
+  private bool isThereAnErrorAtConfigCheck = false;
+  private bool isWaitingForConfigCheck = false;
+  
+  private string installUrl = "";
+  private string installFromWebAppUrl = "";
+  private string installFromAppUrl = "";
+
+  private async Task GenerateManifestUrlAsync()
   {
-    var languageData = await languageBlock.GetLanguageDataAsync();
-    configString = $"CONFIGURATION DATA:\n\n" +
-                   $"CREDENTIALS:\n{credentialsBlock.Username} + {credentialsBlock.Password} + {credentialsBlock.ApiKey}\n\n" +
-                   $"LANGUAGE PREFERENCES:\n{string.Join(',', languageData)}\n\n" +
-                   $"HEARING IMPAIRMENT SETTINGS:\n{hearingImpairmentBlock.HearingImpairedOption}" +
-                   $"DISCORD WEBHOOK:\n{discordNotificationHookBlock.DiscordWebhook}";
-  }
-    
-  private async Task CopyToClipboard()
-  {
-    if (!string.IsNullOrEmpty(configString))
+    var windowUrl = await JSRuntime.InvokeAsync<string>("getCurrentUrlInfo");
+
+    try
     {
-      await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", configString);
+      var configModel = await UserProfileFactory.CreateAsync(
+        credentialsBlock,
+        languageBlock,
+        hearingImpairmentBlock,
+        discordNotificationHookBlock,
+        windowUrl);
+
+      configCheckStatusMessage = "Success! Configuration string generated.";
+      isThereAnErrorAtConfigCheck = false;
+
+      installUrl = configModel.InstallAddonUrl;
+      // installFromWebAppUrl = $"https://web.stremio.com/#/addons?addon={configModel.InstallUrl}";
+      // installFromAppUrl = $"stremio://{configModel.InstallUrl}";
+    }
+    catch (Exception e)
+    {
+      configCheckStatusMessage = e.Message;
+      isThereAnErrorAtConfigCheck = true;
+    }
+    finally
+    {
+      isWaitingForConfigCheck = false;
+      StateHasChanged();
     }
   }
 
-  private async Task GenerateAndCopy()
+  private async Task CopyManifestUrlToClipboard()
   {
-    await GenerateConfigString();
-    await CopyToClipboard();
+    if (!string.IsNullOrEmpty(installUrl))
+    {
+      await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", installUrl);
+    }
   }
 }
+
+<script>
+  function getCurrentUrlInfo() {
+    return window.location.protocol + "//" + window.location.hostname + ":" + window.location.port;
+  }
+</script>
