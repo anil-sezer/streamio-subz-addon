@@ -1,5 +1,4 @@
-﻿using Serilog;
-using Subz.Consts;
+﻿using Subz.Consts;
 using Subz.Infrastructure.ConstantsAndEnums;
 using Subz.Infrastructure.Exceptions;
 using Subz.Infrastructure.Services;
@@ -23,6 +22,7 @@ public class ConfigCacheMiddleware(RequestDelegate next, CacheService cacheServi
         }
         catch (Exception e)
         {
+            // TODO: THIS WILL NOT WORK
             await NotifyViaDiscord.SendNotificationAsync($"Error in ConfigCacheMiddleware: {e.Message}", DiscordMessageType.Error);
             throw;
         }
