@@ -34,15 +34,21 @@ hr.solid {
     margin-top: 1rem;
 }
 
-#title h1 {
-    font-size: 2rem;
-    margin-bottom: 0;
-    margin-top: 0;
-    
-    background: linear-gradient(to right, #11998e, #38ef7d);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+#title img {
+    max-width: 100%;
+    height: auto;
 }
+
+/*TODO USE THIS LATER*/
+/*#title h1 {*/
+/*    fo    nt-size: 2rem;*/
+/*    margin-bottom: 0;*/
+/*    margin-top: 0;*/
+/*    */
+/*    background: linear-gradient(to right, #11998e, #38ef7d);*/
+/*    -webkit-background-clip: text;*/
+/*    -webkit-text-fill-color: transparent;*/
+/*}*/
 
 #title span {
     font-size: 1rem;
