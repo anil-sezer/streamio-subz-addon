@@ -1,9 +1,9 @@
-using System.Text.Json.Serialization;
+using Subz.OpenSubtitleClient.Services.Dtos.Login.SubDtos;
 
-namespace Subz.OpenSubtitleClient.Objects;
+namespace Subz.OpenSubtitleClient.Services.Dtos.Login;
 
 // todo: set should be removed and all should be init only
-public class LoginResponse
+public class LoginResponse: OsResponseBase
 {
     [JsonPropertyName("base_url")]
     public string BaseUrl { get; set; }
@@ -16,7 +16,4 @@ public class LoginResponse
     
     [JsonPropertyName("user")]
     public User User { get; set; }
-    
-    [JsonPropertyName("message")]
-    public string ErrorMessage { get; set; }
 }

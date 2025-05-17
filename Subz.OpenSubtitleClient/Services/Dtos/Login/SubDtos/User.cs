@@ -1,6 +1,4 @@
-using System.Text.Json.Serialization;
-
-namespace Subz.OpenSubtitleClient.Objects;
+namespace Subz.OpenSubtitleClient.Services.Dtos.Login.SubDtos;
 
 public class User
 {
