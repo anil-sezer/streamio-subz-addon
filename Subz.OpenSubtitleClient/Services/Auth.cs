@@ -25,8 +25,8 @@ public static class Auth
     
     public static async Task<LoginResponse> LoginAsync(this OsClient client)
     {
-        var httpResponse = await InitiateLogin(client);
-        var serializedResponse = await SerializeResponse(httpResponse, client);
+        var httpResponse = await InitiateLoginAsync(client);
+        var serializedResponse = await SerializeResponseAsync(httpResponse, client);
         
         if (serializedResponse.IsSuccessStatusCode) 
             return serializedResponse;
@@ -39,7 +39,7 @@ public static class Auth
         return serializedResponse;
     }
 
-    private static async Task<HttpResponseMessage> InitiateLogin(OsClient client)
+    private static async Task<HttpResponseMessage> InitiateLoginAsync(OsClient client)
     {
         var loginRequest = new LoginRequest
         {
@@ -55,7 +55,7 @@ public static class Auth
         return await client.HttpClient.PostAsync($"{OsConsts.BaseUrl}/login", content);
     }
 
-    private static async Task<LoginResponse> SerializeResponse(HttpResponseMessage response, OsClient client)
+    private static async Task<LoginResponse> SerializeResponseAsync(HttpResponseMessage response, OsClient client)
     {
         var responseContent = await response.Content.ReadAsStringAsync();
         var serializedResponse = JsonSerializer.Deserialize<LoginResponse>(responseContent);

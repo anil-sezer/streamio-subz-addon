@@ -13,9 +13,9 @@ public static class Search
 {
     public static async Task<List<SubtitleModel>> SearchSubtitleAsync(this OsClient client, SearchRequest request, string baseUrl, string userConfigQueryString)
     {
-        var httpResponse = await InitiateSearch(client, request);
-        var serializedResponse = await SerializeResponse(httpResponse);
-        var subtitles = await AdaptToStremIo(serializedResponse, baseUrl, userConfigQueryString);
+        var httpResponse = await InitiateSearchAsync(client, request);
+        var serializedResponse = await SerializeResponseAsync(httpResponse);
+        var subtitles = AdaptToStremIo(serializedResponse, baseUrl, userConfigQueryString);
 
         if (serializedResponse.IsSuccessStatusCode)
             return subtitles;
@@ -24,7 +24,7 @@ public static class Search
         throw new UnknownErrorException();
     }
 
-    private static async Task<HttpResponseMessage> InitiateSearch(OsClient client, SearchRequest request)
+    private static async Task<HttpResponseMessage> InitiateSearchAsync(OsClient client, SearchRequest request)
     {
         var baseUrl = $"{OsConsts.BaseUrl}/subtitles";
         
@@ -57,7 +57,7 @@ public static class Search
     }
     
     // todo: make this generic
-    private static async Task<SearchResponse> SerializeResponse(HttpResponseMessage response)
+    private static async Task<SearchResponse> SerializeResponseAsync(HttpResponseMessage response)
     {
         var responseContent = await response.Content.ReadAsStringAsync();
         var serializedResponse = JsonSerializer.Deserialize<SearchResponse>(responseContent);
@@ -68,7 +68,7 @@ public static class Search
         return serializedResponse;
     }
     
-    private static async Task<List<SubtitleModel>> AdaptToStremIo(SearchResponse response, string baseUrl, string userConfigQueryString)
+    private static List<SubtitleModel> AdaptToStremIo(SearchResponse response, string baseUrl, string userConfigQueryString)
     {
         List<SubtitleModel> subtitles = new();
         

@@ -11,7 +11,7 @@ public static class Download
     public static async Task<DownloadResponse> DownloadSubtitleAsync(this OsClient client, DownloadRequest request)
     {
         var httpResponse = await InitiateGettingDownloadLinkAsync(client, request);
-        var serializedResponse = await SerializeResponse(httpResponse);
+        var serializedResponse = await SerializeResponseAsync(httpResponse);
 
         if (serializedResponse.IsSuccessStatusCode)
             return serializedResponse;
@@ -31,7 +31,7 @@ public static class Download
     }
     
     // todo: make this generic
-    private static async Task<DownloadResponse> SerializeResponse(HttpResponseMessage response)
+    private static async Task<DownloadResponse> SerializeResponseAsync(HttpResponseMessage response)
     {
         var responseContent = await response.Content.ReadAsStringAsync();
         var serializedResponse = JsonSerializer.Deserialize<DownloadResponse>(responseContent);
