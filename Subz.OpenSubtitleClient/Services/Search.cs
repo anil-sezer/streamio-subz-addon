@@ -71,11 +71,6 @@ public static class Search
     private static async Task<List<SubtitleModel>> AdaptToStremIo(SearchResponse response, string baseUrl, string userConfigQueryString)
     {
         List<SubtitleModel> subtitles = new();
-
-        // Http is not supported by Stremio. If the app is behind a proxy like Traefik, it might think requests are http.
-        // todo: There should be a better fix than this.
-        if (baseUrl.StartsWith("http://") && (!baseUrl.Contains("localhost") || !baseUrl.Contains("127.0.0.1")))
-            baseUrl = baseUrl.Replace("https://", "http://");
         
         
         foreach (var d in response.data)
@@ -84,6 +79,16 @@ public static class Search
             
             var uri = new Uri(new Uri(baseUrl), $"{RouteConsts.SubtitleServeRoute}{userConfigQueryString}&{RouteConsts.FileId}={d.Attributes.Files[0].FileId}");
             var downloadCommandUrl = uri.ToString();
+            
+            // Http is not supported by Stremio. If the app is behind a proxy like Traefik, it might think requests are http.
+            // todo: There should be a better fix than this.
+            if (downloadCommandUrl.StartsWith("http://") && (!downloadCommandUrl.Contains("localhost") || !downloadCommandUrl.Contains("127.0.0.1")))
+            {
+                downloadCommandUrl = downloadCommandUrl.Replace("https://", "http://");
+                Log.Warning($"Download command URL is http. {Environment.NewLine}" +
+                            $"Replacing with https: {downloadCommandUrl} {Environment.NewLine}" + 
+                            $"BaseUrl: {baseUrl}");
+            }
             
             subtitles.Add(new SubtitleModel
             {
