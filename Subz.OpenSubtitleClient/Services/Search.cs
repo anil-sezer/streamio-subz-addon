@@ -95,8 +95,9 @@ public static class Search
                 DownloadCommand = downloadCommandUrl
             });
         }
-        
-        Log.Information("ExampleDownloadCommand: {ExampleDownloadCommand}", subtitles.First().DownloadCommand);
+
+        if (subtitles.Count > 0)
+            Log.Information("ExampleDownloadCommand: {ExampleDownloadCommand}", subtitles.First().DownloadCommand);
         
         return subtitles;
     }
