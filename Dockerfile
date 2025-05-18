@@ -1,10 +1,15 @@
 ﻿# docker build -t anilsezer/subz:1.0.0 -t anilsezer/subz:latest .
 # docker push anilsezer/subz:1.0.0
+# docker build -t anilsezer/subz:test .
+# docker run -it -p 8080:8080 -p 8081:8081 -e "ASPNETCORE_ENVIRONMENT=Development" anilsezer/subz:test
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
+
+ENV TERM=xterm-256color
+ENV ASPNETCORE_ENVIRONMENT=Production
 
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
