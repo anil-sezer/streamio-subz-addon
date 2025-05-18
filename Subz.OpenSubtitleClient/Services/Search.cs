@@ -71,6 +71,11 @@ public static class Search
     private static async Task<List<SubtitleModel>> AdaptToStremIo(SearchResponse response, string baseUrl, string userConfigQueryString)
     {
         List<SubtitleModel> subtitles = new();
+
+        // Http is not supported by Stremio. If the app is behind a proxy like Traefik, it might think requests are http.
+        // todo: There should be a better fix than this.
+        if (baseUrl.StartsWith("http://") && (!baseUrl.Contains("localhost") || !baseUrl.Contains("127.0.0.1")))
+            baseUrl = baseUrl.Replace("https://", "http://");
         
         
         foreach (var d in response.data)
